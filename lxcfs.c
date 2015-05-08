@@ -2089,13 +2089,19 @@ static int proc_uptime_read(char *buf, size_t size, off_t offset,
 	long int idletime = getprocidle();
 	size_t total_len = 0;
 
+        printf("proc_uptime_read(..., size=%zu, ...)\n", size);
+
 	if (offset){
+                printf("offset is %zu, d->size is %d\n",offset, d->size);
 		if (offset > d->size)
 			return -EINVAL;
+                printf("returning 0 bytes\n");
 		return 0;
 	}
 
 	total_len = snprintf(buf, size, "%ld %ld\n", reaperage, idletime);
+        printf("total_len=%zu, size=%zu\n", total_len, size);
+
 	d->size = total_len;
 	return total_len;
 }
